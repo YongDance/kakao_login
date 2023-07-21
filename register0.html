@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <link rel="icon" href="/favicon.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#000000" />
+  <title>register0</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=SF+Pro+Text%3A600"/>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro%3A600%2C700"/>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter%3A700"/>
+  <link rel="stylesheet" href="./styles/register0.css"/>
+</head>
+<body>
+<div class="register0-ZWy">
+  <div class="frame-3-sGm">
+    <div class="group-3-Pku">
+      <p class="item-9-41-jpm">9:41</p>
+      <div class="right-side-qso">
+        <img class="mobile-signal-mWZ" src="./assets/mobile-signal-SfB.png"/>
+        <img class="wifi-VSZ" src="./assets/wifi.png"/>
+        <img class="battery-cXB" src="./assets/battery-8jj.png"/>
+      </div>
+    </div>
+  </div>
+  <div class="group-7-vnm">
+    <img class="rectangle-46-quj" src="./assets/rectangle-46-YdX.png"/>
+  </div>
+  <div >
+    <ul>
+      <div onclick="kakaoLogin();">
+        <a href="javascript:void(0)">
+            <span><img src="https://www.gb.go.kr/Main/Images/ko/member/certi_kakao_login.png" style= "height:60px;width:auto;"/></span>
+        </a>
+      </div>
+      <div onclick="kakaoLogout();">
+        <a href="javascript:void(0)">
+            <span><h1>로그아웃</h1></span>
+        </a>
+      </div>
+    </ul>
+  </div>
+ 
+  <div class="group-22-dUD">
+    <img class="rectangle-45-8vm" src="./assets/rectangle-45.png"/>
+  </div>
+</div>
+
+
+<!-- 카카오 스크립트 -->
+<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+<script>
+Kakao.init('b30ba9f5031889dc49b0a25e8f277e32'); //발급받은 키 중 javascript키를 사용해준다.
+console.log(Kakao.isInitialized()); // sdk초기화여부판단
+//카카오로그인
+function kakaoLogin() {
+  Kakao.Auth.login({
+    success: function (response) {
+      Kakao.API.request({
+        url: '/v2/user/me',
+        success: function (response) {
+            console.log(response)
+        },
+        fail: function (error) {
+          console.log(error)
+        },
+      })
+    },
+    fail: function (error) {
+      console.log(error)
+    },
+  })
+}
+//카카오로그아웃  
+function kakaoLogout() {
+  if (Kakao.Auth.getAccessToken()) {
+    Kakao.API.request({
+      url: '/v1/user/unlink',
+      success: function (response) {
+          console.log(response)
+      },
+      fail: function (error) {
+        console.log(error)
+      },
+    })
+    Kakao.Auth.setAccessToken(undefined)
+  }
+}  
+</script>
+</body>
